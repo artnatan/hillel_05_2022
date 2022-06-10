@@ -1,3 +1,6 @@
 #venv folder
 venv/
 .vscode
+
+#files
+rockyou.txt
