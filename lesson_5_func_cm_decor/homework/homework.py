@@ -1,10 +1,6 @@
 # from pprint import pprint as print
 from __future__ import annotations
 
-LOGGING = True
-keyword = "number"
-sort_param = True
-
 team: list[dict] = [
     {"name": "John", "age": 20, "number": 1},
     {"name": "Mark", "age": 33, "number": 12},
