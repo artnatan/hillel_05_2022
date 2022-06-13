@@ -14,8 +14,8 @@ def repr_players(
     print("TEAM:")
     if sorted:
         players.sort(key=lambda x: x[keyword])
-    for player in players:
-        print(f"\t{player['number']} Name:{player['name']}Age:{player['age']}")
+    for pl in players:
+        print(f"\t{pl['number']} Name:{pl['name']} Age:{pl['age']}")
     print("\n")
 
 
@@ -41,16 +41,21 @@ def remove_player(players: list[dict], num: int) -> None:
 
 
 def update_player(players: list[dict], num: int, name: str, age: int) -> None:
+    index = 0
+    while True:
+        if index == len(players):
+            log(message=f"There is no a player with #{num} to update")
+            break
 
-    check_player = True
-    for player in players:
-        if num == player["number"]:
-            player["name"] = name
-            player["age"] = age
+        elif num == players[index]["number"]:
+            players[index]["name"] = name
+            players[index]["age"] = age
             log(message=f"Update player with #{num}")
-            check_player = False
-    if check_player:
-        log(message=f"There is no a player with #{num} to update")
+            break
+
+        else:
+            index += 1
+            continue
 
 
 def main():
@@ -65,7 +70,7 @@ def main():
     add_player(team, num=17, name="Bo", age=3)
     add_player(team, num=10, name="Borja", age=36)
     update_player(team, num=100, name="Alex", age=60)
-    update_player(team, num=1, name="Alex", age=60)
+    update_player(team, num=12, name="Alex", age=60)
 
     repr_players(team, True, "name")
 
