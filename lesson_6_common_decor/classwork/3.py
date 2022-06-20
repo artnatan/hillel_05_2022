@@ -5,24 +5,29 @@ PREFIX = "./lesson_6_conman_decor/"
 LOG_FILE = PREFIX + "actions.log"
 
 
-def get_log_message(username: str, message: str) -> str:
-    return f"{datetime.now()} {username}: {message}"
+def log(message: str):
+    def wrapper(func):
+        def inner(username):
+            text = f"{datetime.now()} {username}: {message}"
+            with open(LOG_FILE, "a") as f:
+                f.write(f"{text}\n")
+
+            return func(username)
+
+        return inner
+
+    return wrapper
 
 
-def log_action(text: str) -> None:
-    with open(LOG_FILE, "a") as f:
-        f.write(f"{text}\n")
-
-
+@log(message="Reading USB")
 def read_usb(username: str):
-    log_action(get_log_message(username, "Opened USB"))
     files = listdir(PREFIX + "f-disc/")
     filtered = [file for file in files if not file.startswith(".")]
     return filtered
 
 
+@log(message="Reading CD")
 def read_cd(username: str):
-    log_action(get_log_message(username, "Opened Cd"))
     return listdir(PREFIX + "c-disc/")
 
 
@@ -39,7 +44,6 @@ def main():
             files = read_usb(username)
         else:
             print("Wrong input. Please use options from brackets!\n")
-            log_action(f"{datetime.now()} {username}: Wrond input - {user_input}")
             continue
 
         for file in files:
