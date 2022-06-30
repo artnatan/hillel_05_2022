@@ -21,7 +21,7 @@ class CreateData:
 
 # addition and subtraction operations
 class Price:
-    def __init__(self, amount: Union(int, float), currency: str) -> None:
+    def __init__(self, amount: Union[int, float], currency: str) -> None:
         self.amount: int = amount
         self.currency: str = currency
 
@@ -101,20 +101,22 @@ def main():
     data_b: tuple[int, str] = CreateData.start(currency_list)
 
     # creat objects of class Price
-    price_a = Price(data_a[0], data_a[1])
-    price_b = Price(data_b[0], data_b[1])
+    price_a: Price = Price(data_a[0], data_a[1])
+    price_b: Price = Price(data_b[0], data_b[1])
 
     print(f"Price_A: {price_a.amount} {price_a.currency}")
     print(f"Price_B: {price_b.amount} {price_b.currency}")
 
     # conversion currency Price_B to currency Price_A
-    price_b = CurrencyExchange(price_a.currency, price_b, exchange_rates).calculate()
+    price_b: Price = CurrencyExchange(
+        price_a.currency, price_b, exchange_rates
+    ).calculate()
 
     # operations on objects
-    price_c = price_a + price_b
+    price_c: Price = price_a + price_b
     print(f"Price_C = Price_A + Price_B: {price_c.amount} {price_c.currency}")
 
-    price_c = price_a - price_b
+    price_c: Price = price_a - price_b
     print(f"Price_C = Price_A - Price_B: {price_c.amount} {price_c.currency}")
 
 
