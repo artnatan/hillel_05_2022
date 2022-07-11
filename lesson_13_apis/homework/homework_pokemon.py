@@ -1,7 +1,7 @@
 import asyncio
 import random
 
-import aiohttp
+from aiohttp import ClientSession
 
 BASE_URL = "https://pokeapi.co/api/v2/pokemon/"
 MAX_POKEMON = 200
@@ -13,19 +13,19 @@ def get_random_id() -> str:
     return str(random_id)
 
 
-async def get_random_pokemon() -> str:
+async def get_random_pokemon(session: ClientSession) -> str:
     url = BASE_URL + get_random_id()
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            res = await response.json()
-            return res["name"]
+    async with session.get(url) as response:
+        res = await response.json()
+        return res["name"]
 
 
 async def main():
-    tasks = [get_random_pokemon() for _ in range(AMOUNT)]
-    results = await asyncio.gather(*tasks)
-    print(f"Pokemons: {results}")
+    async with ClientSession() as session:
+        tasks = [get_random_pokemon(session) for _ in range(AMOUNT)]
+        results = await asyncio.gather(*tasks)
+        print(f"Pokemon collection: {results}")
 
 
 if __name__ == "__main__":
